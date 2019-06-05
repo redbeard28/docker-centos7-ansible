@@ -1,5 +1,7 @@
 # Centos7 docker image for testing purpose
 
+[![Docker Automated build](https://img.shields.io/docker/automated/redbeard28/docker-centos7-ansible.svg?maxAge=2592000)](https://hub.docker.com/r/redbeard28/docker-centos7-ansible/)
+
 This image is used in addition of [molecule framework](https://molecule.readthedocs.io/en/stable/). 
 
 # Howto use it
@@ -64,4 +66,4 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 ## Thanks to
 
 * percygrunwald
-* geerlingguy
+* redbeard28
