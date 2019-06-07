@@ -1,5 +1,7 @@
 # Centos7 docker image for testing purpose
 
+[![Docker Automated build](https://img.shields.io/docker/automated/redbeard28/docker-centos7-ansible.svg?maxAge=2592000)](https://hub.docker.com/r/redbeard28/docker-centos7-ansible/)
+
 This image is used in addition of [molecule framework](https://molecule.readthedocs.io/en/stable/). 
 
 # Howto use it
@@ -47,9 +49,14 @@ docker run -d redbeard28/docker-centos7-ansible
 * [GitHub](https://github.com/redbeard28/docker-centos7-ansible.git)
 * [redbeard-consulting](https://redbeard-consulting.fr)
 
+## Souces docs
+
+ * [Molecule](https://molecule.readthedocs.io/en/stable/configuration.html)
+ * [Centos Docker Hub](https://hub.docker.com/r/centos/systemd/)
+ 
 ## Versioning
 
-[tags on this repository](https://github.com/redbeard28/docker-centos7-ansible/tags). 
+ * [tags on this repository](https://github.com/redbeard28/docker-centos7-ansible/tags). 
 
 ## Authors
 
