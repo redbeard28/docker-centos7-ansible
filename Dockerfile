@@ -1,33 +1,20 @@
-FROM centos:7
+FROM centos/systemd
 MAINTAINER "Jeremie CUADRADO" <jeremie_cuadrado@carrefour.com>
 #
 ENV BR2_TARGET_GENERIC_GETTY_PORT "tty1"
-ENV LC_ALL en_US.UTF-8
-#
-RUN (cd /lib/systemd/system/sysinit.target.wants/; for i in *; do [ $i == systemd-tmpfiles-setup.service ] || rm -f $i; done); \
-rm -f /lib/systemd/system/multi-user.target.wants/*;\
-rm -f /etc/systemd/system/*.wants/*;\
-rm -f /lib/systemd/system/local-fs.target.wants/*; \
-rm -f /lib/systemd/system/sockets.target.wants/*udev*; \
-rm -f /lib/systemd/system/sockets.target.wants/*initctl*; \
-rm -f /lib/systemd/system/basic.target.wants/*;\
-rm -f /lib/systemd/system/anaconda.target.wants/*;
-#
-# deltarpm => https://www.certdepot.net/rhel7-get-started-delta-rpms/
-# http_caching=packages => https://www.centos.org/forums/viewtopic.php?t=53278
+ARG LC_ALL=en_US.UTF-8
 #
 RUN echo "LC_ALL=en_US.utf8" > /etc/environment
 RUN source /etc/environment
 RUN yum -y update; yum clean all
 RUN yum -y install https://centos7.iuscommunity.org/ius-release.rpm
-RUN yum -y install build-essential deltarpm passwd sudo wget vim logrotate
+RUN yum -y install build-essential openssh-server openssh-clients deltarpm passwd sudo vi logrotate
 RUN yum -y groupinstall "Development Tools"; yum clean all
 #
 # Disable requiretty.
 RUN sed -i -e 's/^\(Defaults\s*requiretty\)/#--- \1/'  /etc/sudoers
 #
-# ADD user ansible original source: percygrunwald/docker-centos7-ansible
-#
+# ADD user ansible source: percygrunwald/docker-centos7-ansible
 ENV ANSIBLE_USER=ansible SUDO_GROUP=wheel
 RUN set -xe \
   && groupadd -r ${ANSIBLE_USER} \
@@ -35,12 +22,19 @@ RUN set -xe \
   && usermod -aG ${SUDO_GROUP} ${ANSIBLE_USER} \
   && sed -i "/^%${SUDO_GROUP}/s/ALL\$/NOPASSWD:ALL/g" /etc/sudoers
 #
+ADD ./run.sh /run.sh
 RUN yum -y install python36 python36-pip; \
 yum -y install gcc gcc-c++ make python36-devel openssl-devel libffi-devel; \
 python3.6 -m pip install --upgrade pip; \
 python3.6 -m pip install molecule;
 #
+RUN mkdir /data
+RUN mkdir /var/run/sshd
+RUN ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key -N ''
 RUN ln -s /lib/systemd/system/getty@.service /etc/systemd/system/getty.target.wants/getty@ttyS0.service
+RUN sed -ri 's/UsePAM yes/#UsePAM yes/g' /etc/ssh/sshd_config && sed -ri 's/#UsePAM no/UsePAM no/g' /etc/ssh/sshd_config
+RUN systemctl enable sshd.service
+RUN chmod 755 /run.sh
 VOLUME [ "/sys/fs/cgroup" ]
 EXPOSE 22
-CMD ["/usr/lib/systemd/systemd"]
+ENTRYPOINT ["/run.sh"]

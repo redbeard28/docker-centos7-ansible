@@ -49,9 +49,14 @@ docker run -d redbeard28/docker-centos7-ansible
 * [GitHub](https://github.com/redbeard28/docker-centos7-ansible.git)
 * [redbeard-consulting](https://redbeard-consulting.fr)
 
+## Souces docs
+
+ * [Molecule](https://molecule.readthedocs.io/en/stable/configuration.html)
+ * [Centos Docker Hub](https://hub.docker.com/r/centos/systemd/)
+ 
 ## Versioning
 
-[tags on this repository](https://github.com/redbeard28/docker-centos7-ansible/tags). 
+ * [tags on this repository](https://github.com/redbeard28/docker-centos7-ansible/tags). 
 
 ## Authors
 
@@ -66,4 +71,4 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 ## Thanks to
 
 * percygrunwald
-* redbeard28
+* geerlingguy
