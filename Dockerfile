@@ -1,5 +1,5 @@
 FROM centos/systemd
-MAINTAINER "Jeremie CUADRADO" <jeremie_cuadrado@carrefour.com>
+MAINTAINER "Jeremie CUADRADO" <redbeard28>
 #
 ENV BR2_TARGET_GENERIC_GETTY_PORT "tty1"
 ARG LC_ALL=en_US.UTF-8
